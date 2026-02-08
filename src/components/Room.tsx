@@ -4,6 +4,7 @@ import { SuitColor, Suits, getRank } from "../util/CardHelper";
 
 interface Props {
     cards: CardType[];
+    isGameOver?: boolean;
     callback: (card: CardType) => void;
     onDamageReceived: (card: CardType) => void;
     onGainHealth: (health: number) => void;
@@ -12,6 +13,7 @@ interface Props {
 
 export default function Room({
     cards,
+    isGameOver = false,
     callback,
     onDamageReceived,
     onGainHealth,
@@ -37,7 +39,11 @@ export default function Room({
     return (
         <div className="room">
             {cards.map((card, index) => (
-                <Card key={index} onClick={() => onCardClick(card)}>
+                <Card
+                    key={index}
+                    isGameOver={isGameOver}
+                    onClick={() => onCardClick(card)}
+                >
                     <p className="card-rank">{card.value}</p>
                     <p style={{ color: SuitColor[card.suit] }}>{card.suit}</p>
                 </Card>

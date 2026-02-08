@@ -190,15 +190,14 @@ function App() {
                                 />
                             )}
                             <div className="hand-row">
-                                {!isGameOver && (
-                                    <Room
-                                        callback={onCardClick}
-                                        onDamageReceived={onDamageReceived}
-                                        onGainHealth={onGainHealth}
-                                        onGainWeapon={onGainWeapon}
-                                        cards={room}
-                                    />
-                                )}
+                                <Room
+                                    callback={onCardClick}
+                                    onDamageReceived={onDamageReceived}
+                                    onGainHealth={onGainHealth}
+                                    onGainWeapon={onGainWeapon}
+                                    cards={room}
+                                    isGameOver={isGameOver}
+                                />
                             </div>
                         </div>
                         <div className="skip-room">
