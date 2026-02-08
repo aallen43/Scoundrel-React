@@ -1,3 +1,5 @@
+import Face from "./Face";
+
 interface Props {
     currentDamage: number;
 }
@@ -11,12 +13,20 @@ export default function Health({ currentDamage }: Props) {
     } else if (currentDamage >= 10) {
         className = "health-filler-warning";
     }
+    const faceState: "happy" | "neutral" | "hurt" | "dead" =
+        currentDamage === 20
+            ? "dead"
+            : currentDamage >= 15
+              ? "hurt"
+              : currentDamage >= 10
+                ? "neutral"
+                : "happy";
 
     return (
         <div
             style={{
                 display: "flex",
-                flexDirection: "column",
+                flexDirection: "row",
                 alignItems: "center",
             }}
         >
@@ -43,6 +53,7 @@ export default function Health({ currentDamage }: Props) {
                     {healthRemaining}
                 </div>
             </div>
+            <Face state={faceState} />
         </div>
     );
 }

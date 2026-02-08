@@ -228,21 +228,21 @@
     background-color: red;
     width: 100%;
     color: red;
-    transition: height 0.3s ease;
+    transition: height 0.5s ease;
 }
 
 .health-filler-good {
     background-color: green;
     width: 100%;
     color: green;
-    transition: height 0.3s ease;
+    transition: height 0.5s ease;
 }
 
 .health-filler-warning {
     background-color: orange;
     width: 100%;
     color: orange;
-    transition: height 0.3s ease;
+    transition: height 0.5s ease;
 }
 
 /* Main wobble animation */
