@@ -16,11 +16,12 @@ function App() {
     const [previousRoomSkipped, setPreviousRoomSkipped] =
         useState<boolean>(false);
     const [gameStarted, setGameStarted] = useState<boolean>(false);
+    const [isGameOver, setIsGameOver] = useState<boolean>(false);
     const [isShuffling, setIsShuffling] = useState<boolean>(false);
 
     useEffect(() => {
         if (damage >= 20) {
-            setGameStarted(false);
+            setIsGameOver(true);
         }
     }, [damage]);
 
@@ -34,6 +35,7 @@ function App() {
         setDamage(0);
         setHasPlayedHealth(false);
         setPreviousRoomSkipped(false);
+        setIsGameOver(false);
         setTimeout(() => {
             setRoom(newDeck.splice(0, 4));
             setDeck(newDeck);
@@ -78,7 +80,11 @@ function App() {
             damageReceived - getRank(inventory[0].value) < 20
         ) {
             newDamage = damageReceived - getRank(inventory[0].value);
-            setDamage(newDamage < 0 ? damage : damage + newDamage);
+            if (damage + newDamage > 20) {
+                setDamage(20);
+            } else {
+                setDamage(newDamage < 0 ? damage : damage + newDamage);
+            }
             setInventory([...inventory, card]);
         } else if (newDamage < 20) {
             setDamage(newDamage);
@@ -106,7 +112,7 @@ function App() {
     const onCardClick = (card: CardType): void => {
         const filteredRoom = room.filter((h) => h !== card);
 
-        if (filteredRoom.length === 1 && deck.length >= 3) {
+        if (filteredRoom.length === 1) {
             setRoom([...filteredRoom, ...deck.splice(0, 3)]);
             setHasPlayedHealth(false);
             setPreviousRoomSkipped(false);
@@ -143,52 +149,56 @@ function App() {
                     <button className="draw-button" onClick={createNewGame}>
                         New Game
                     </button>
-                    {gameStarted && deck.length + room.length <= 2 && (
+                    {gameStarted &&
+                        deck.length + room.length == 0 &&
+                        damage < 20 && (
+                            <div
+                                className="you-win"
+                                style={{
+                                    textAlign: "center",
+                                    color: "green",
+                                    fontSize: 24,
+                                    fontWeight: 700,
+                                    margin: "12px 10px 0",
+                                }}
+                            >
+                                You Win!!
+                            </div>
+                        )}
+                    {damage >= 20 && (
                         <div
-                            className="you-win"
+                            className="game-over"
                             style={{
                                 textAlign: "center",
-                                color: "green",
+                                color: "crimson",
                                 fontSize: 24,
                                 fontWeight: 700,
                                 margin: "12px 10px 0",
                             }}
                         >
-                            You Win!!
+                            Game Over
                         </div>
                     )}
                 </div>
-                {damage >= 20 && (
-                    <div
-                        className="game-over"
-                        style={{
-                            textAlign: "center",
-                            color: "crimson",
-                            fontSize: 24,
-                            fontWeight: 700,
-                            margin: "12px 0",
-                        }}
-                    >
-                        Game Over
-                    </div>
-                )}
                 {gameStarted && (
                     <div className="game-area">
                         <div className="action-row">
-                            {!!deck.length && (
+                            {gameStarted && (
                                 <Deck
                                     numCardsLeft={deck.length}
                                     isShuffling={isShuffling}
                                 />
                             )}
                             <div className="hand-row">
-                                <Room
-                                    callback={onCardClick}
-                                    onDamageReceived={onDamageReceived}
-                                    onGainHealth={onGainHealth}
-                                    onGainWeapon={onGainWeapon}
-                                    cards={room}
-                                />
+                                {!isGameOver && (
+                                    <Room
+                                        callback={onCardClick}
+                                        onDamageReceived={onDamageReceived}
+                                        onGainHealth={onGainHealth}
+                                        onGainWeapon={onGainWeapon}
+                                        cards={room}
+                                    />
+                                )}
                             </div>
                         </div>
                         <div className="skip-room">
@@ -224,7 +234,7 @@ function App() {
                             </button>
                         </div>
                         <div className="player-row">
-                            {!!deck.length && <Health currentDamage={damage} />}
+                            {gameStarted && <Health currentDamage={damage} />}
                             {!!inventory.length && (
                                 <Inventory inventory={inventory} />
                             )}
