@@ -149,6 +149,13 @@ function App() {
                     <button className="draw-button" onClick={createNewGame}>
                         New Game
                     </button>
+                    <a
+                        href="http://stfj.net/art/2011/Scoundrel.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <button className="draw-button">How To Play</button>
+                    </a>
                     {gameStarted &&
                         deck.length + room.length == 0 &&
                         damage < 20 && (
