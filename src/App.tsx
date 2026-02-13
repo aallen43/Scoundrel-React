@@ -221,7 +221,7 @@ function App() {
                                         : {}
                                 }
                             >
-                                Skip Room (from left)
+                                Avoid Room (from left)
                             </button>
                             <button
                                 className="draw-button"
@@ -236,7 +236,7 @@ function App() {
                                         : {}
                                 }
                             >
-                                Skip Room (from right)
+                                Avoid Room (from right)
                             </button>
                         </div>
                         <div className="player-row">

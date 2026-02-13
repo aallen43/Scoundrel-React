@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 interface Props {
-    key: number;
+    key: number | string;
     children: ReactNode;
     isGameOver?: boolean;
     onClick?: () => void;

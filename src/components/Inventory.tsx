@@ -9,8 +9,8 @@ interface Props {
 export default function Inventory({ inventory }: Props) {
     return (
         <div className="card-stack" aria-hidden={inventory.length === 0}>
-            {inventory.map((c, i) => (
-                <Card key={i}>
+            {inventory.map((c) => (
+                <Card key={`${c.suit}-${c.value}`}>
                     <p className="card-rank">{c.value}</p>
                     <p
                         style={{
